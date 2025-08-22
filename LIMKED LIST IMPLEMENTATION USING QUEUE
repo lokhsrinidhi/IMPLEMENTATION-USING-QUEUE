@@ -1,0 +1,84 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class Queue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+
+    def is_empty(self):
+        return self.front is None
+
+    def enqueue(self, data):
+        new_node = Node(data)
+        if self.rear is None:
+            # Queue is empty
+            self.front = self.rear = new_node
+            return
+        self.rear.next = new_node
+        self.rear = new_node
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return None
+        removed_data = self.front.data
+        self.front = self.front.next
+        if self.front is None:
+            # Queue became empty
+            self.rear = None
+        return removed_data
+
+    def peek(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return None
+        return self.front.data
+
+    def display(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return
+        current = self.front
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+
+if __name__ == "__main__":
+    q = Queue()
+
+    while True:
+        print("\n--- Queue Menu ---")
+        print("1. Enqueue")
+        print("2. Dequeue")
+        print("3. Peek")
+        print("4. Display")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            value = input("Enter value to enqueue: ")
+            q.enqueue(value)
+            print(f"{value} added to the queue.")
+        elif choice == "2":
+            removed = q.dequeue()
+            if removed is not None:
+                print(f"{removed} removed from the queue.")
+        elif choice == "3":
+            front_value = q.peek()
+            if front_value is not None:
+                print(f"Front of queue: {front_value}")
+        elif choice == "4":
+            q.display()
+        elif choice == "5":
+            print("Exiting program...")
+            break
+        else:
+            print("Invalid choice! Please try again.")
+
+           
