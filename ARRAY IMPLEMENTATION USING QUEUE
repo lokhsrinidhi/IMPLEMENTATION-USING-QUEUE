@@ -1,0 +1,80 @@
+class Queue:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.queue = [None] * capacity
+        self.front = 0
+        self.rear = -1
+        self.size = 0
+
+    def is_empty(self):
+        return self.size == 0
+
+    def is_full(self):
+        return self.size == self.capacity
+
+    def enqueue(self, car):
+        if self.is_full():
+            print("Queue is full. Cannot add more cars.")
+            return
+        self.rear = (self.rear + 1) % self.capacity
+        self.queue[self.rear] = car
+        self.size += 1
+        print(f"Car '{car}' added to the queue.")
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty. No car to remove.")
+            return None
+        car = self.queue[self.front]
+        self.queue[self.front] = None
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        print(f"Car '{car}' removed from the queue.")
+        return car
+
+    def peek(self):
+        if self.is_empty():
+            print("Queue is empty.")
+            return None
+        return self.queue[self.front]
+
+    def display_queue(self):
+        if self.is_empty():
+            print("Queue is empty.")
+            return
+        print("Current Queue of Cars:")
+        for i in range(self.size):
+            index = (self.front + i) % self.capacity
+            print(f"- {self.queue[index]}")
+
+
+if __name__ == "__main__":
+    capacity = int(input("Enter the maximum capacity of the parking queue: "))
+    parking_queue = Queue(capacity)
+
+    while True:
+        print("\n--- Parking Queue Menu ---")
+        print("1. Add car to queue")
+        print("2. Remove car from queue")
+        print("3. Peek at front car")
+        print("4. Display queue")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            car_name = input("Enter car name to add: ")
+            parking_queue.enqueue(car_name)
+        elif choice == "2":
+            parking_queue.dequeue()
+        elif choice == "3":
+            front_car = parking_queue.peek()
+            if front_car is not None:
+                print(f"Front car in the queue: {front_car}")
+        elif choice == "4":
+            parking_queue.display_queue()
+        elif choice == "5":
+            print("Exiting program...")
+            break
+        else:
+            print("Invalid choice! Please try again.")
